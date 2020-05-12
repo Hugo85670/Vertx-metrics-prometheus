@@ -1,5 +1,5 @@
 {
   "deploy": {
-    "goal": "clean compile exec:java"
+    "goal": "clean package exec:java"
   }
 }
