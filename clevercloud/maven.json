@@ -1,9 +1,5 @@
 {
-  "build": {
-    "type": "maven",
-    "goal": "compile"
-  },
   "deploy": {
-    "goal": "-Dtest.active=false assembly:jar-with-dependencies exec:java"
+    "goal": "clean compile exec:java"
   }
 }
