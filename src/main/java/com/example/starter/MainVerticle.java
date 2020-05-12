@@ -16,7 +16,7 @@ public class MainVerticle extends AbstractVerticle
 	@Override
 	public void start(Future<Void> startFuture) throws Exception
 	{
-		int port = 8080;
+		int    port = 9100;
 		String path = "/metrics";
 
 		if (System.getenv("CC_METRICS_PROMETHEUS_PORT") != null)
@@ -25,14 +25,23 @@ public class MainVerticle extends AbstractVerticle
 		if (System.getenv("CC_METRICS_PROMETHEUS_PATH") != null)
 			path = System.getenv("CC_METRICS_PROMETHEUS_PATH");
 
-			MicrometerMetricsOptions options = new MicrometerMetricsOptions()
-				.setPrometheusOptions(new VertxPrometheusOptions().setEnabled(true))
-				.setEnabled(true);
+		MicrometerMetricsOptions options = new MicrometerMetricsOptions()
+			.setPrometheusOptions(new VertxPrometheusOptions().setEnabled(true))
+			.setEnabled(true);
 
-		Vertx vertx = Vertx.vertx(new VertxOptions().setMetricsOptions(options));
+		Vertx vertx2 = Vertx.vertx(new VertxOptions().setMetricsOptions(options));
 
-		Router router = Router.router(vertx);
+		Router router = Router.router(vertx2);
 		router.route(path).handler(PrometheusScrapingHandler.create());
-		vertx.createHttpServer().requestHandler(router).listen(port);
+		vertx2.createHttpServer().requestHandler(router).listen(port);
+
+		// Deploy classic server
+		vertx2.deployVerticle(ServerVerticle.class.getName(), result -> {
+			if (result.succeeded()) {
+				System.out.println("Success deploy");
+			} else {
+				System.out.println(result.cause());
+			}
+		});
 	}
 }
