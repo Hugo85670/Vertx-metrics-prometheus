@@ -1,5 +1,9 @@
 {
+  "build": {
+    "type": "maven",
+    "goal": "package"
+  },
   "deploy": {
-    "goal": "clean package exec:java"
+    "goal": "-Dtest.active=false assembly:jar-with-dependencies exec:java"
   }
 }
