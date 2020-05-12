@@ -35,6 +35,7 @@ public class MainVerticle extends AbstractVerticle
 		router.route(path).handler(PrometheusScrapingHandler.create());
 		vertx2.createHttpServer().requestHandler(router).listen(port);
 
+		System.out.println("Deploy metrics on path : 0.0.0.0:" + port + path);
 		// Deploy classic server
 		vertx2.deployVerticle(ServerVerticle.class.getName(), result -> {
 			if (result.succeeded()) {

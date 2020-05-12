@@ -16,6 +16,7 @@ public class ServerVerticle extends AbstractVerticle
 		if (System.getenv("PORT") != null)
 			port = Integer.parseInt(System.getenv("PORT"));
 
+		System.out.println("Start server on : 0.0.0.0:" + port);
 		Router router = Router.router(vertx);
 		router.route("/*").handler(rc -> {
 			respondWithOk(rc, "application/json", "{\"message\":\"Hello World !\"}");

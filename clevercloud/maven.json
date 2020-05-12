@@ -1,5 +1,9 @@
 {
+  "build": {
+    "type": "maven",
+    "goal": "clean package"
+  },
   "deploy": {
-    "goal": "clean compile exec:java"
+    "jarName": "target/starter-1.0.0-SNAPSHOT-fat.jar"
   }
 }
